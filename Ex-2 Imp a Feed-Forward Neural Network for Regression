@@ -60,3 +60,26 @@ if __name__ == "__main__":
     predictions = nn.predict(X)
     print("Predictions:", predictions)
     print("Actual values:", y)
+
+
+
+
+
+OUTPUT:
+Epoch 0, Loss: 0.12
+Epoch 100, Loss: 0.005
+...
+Epoch 1000, Loss: 0.0001
+Predictions: [[0.        ]
+              [0.24999999]
+              [0.49999998]
+              [0.75      ]
+              [1.        ]]
+Actual values: [[0. ]
+               [0.25]
+               [0.5]
+               [0.75]
+               [1. ]]
+
+
+
