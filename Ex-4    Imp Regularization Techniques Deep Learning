@@ -1,0 +1,40 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers, regularizers
+import torch
+import torch.nn as nn
+import torch.optim as optim
+from torch.utils.data import DataLoader, TensorDataset
+
+(X_train, y_train), (X_test, y_test) = keras.datasets.mnist.load_data()
+
+X_train, X_test = X_train / 255.0, X_test / 255.0
+
+X_train = X_train.reshape(-1, 28*28)
+X_test = X_test.reshape(-1, 28*28)
+
+y_train = keras.utils.to_categorical(y_train, 10)
+y_test = keras.utils.to_categorical(y_test, 10)
+model = keras.Sequential([
+layers.Dense(512, activation='relu', kernel_regularizer=regularizers.l2(0.01)),  # L2 Regularization
+layers.Dropout(0.5),  # Dropout Regularization
+layers.BatchNormalization(),  # Batch Normalization
+layers.Dense(256, activation='relu', kernel_regularizer=regularizers.l1(0.01)),  # L1 Regularization
+layers.Dropout(0.3),
+layers.BatchNormalization(),
+layers.Dense(10, activation='softmax') ])
+
+model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+
+early_stopping = keras.callbacks.EarlyStopping(monitor='val_loss', patience=5, restore_best_weights=True)
+
+history = model.fit(X_train, y_train, epochs=50, validation_data=(X_test, y_test), callbacks=[early_stopping])
+
+plt.plot(history.history['loss'], label='Training Loss')
+plt.plot(history.history['val_loss'], label='Validation Loss')
+plt.xlabel('Epochs')
+plt.ylabel('Loss')
+plt.legend()
+plt.show()
