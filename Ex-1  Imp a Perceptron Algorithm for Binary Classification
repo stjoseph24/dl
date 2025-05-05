@@ -49,3 +49,10 @@ if __name__ == "__main__":
     predictions = perceptron.predict(X)
     print("Predicted labels:", predictions)
     print("Actual labels:   ", y)
+
+
+
+
+output :
+Predicted labels: [ 1.  1.  1. -1. -1. -1.]
+Actual labels:    [ 1  1  1 -1 -1 -1]
